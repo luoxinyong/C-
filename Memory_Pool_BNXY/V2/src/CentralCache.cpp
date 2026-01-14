@@ -41,7 +41,7 @@ namespace Bnxy_memoryPool
     }
     void* result = nullptr;//准备一个空指针，用于返回结果
     //第一步还是从自己的自由链表里面尝试给一块内存分割好后交给Thread使用
-    // 使用try-catch来保证不会直接throw出异常，而是直接返回nullptr保护
+
     try
     {
         result = centralFreeList_[index].load(std::memory_order_relaxed);//尝试从自己的自由链表里拿出来
