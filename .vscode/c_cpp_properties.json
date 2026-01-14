@@ -4,7 +4,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/Memory_Pool_BNXY/V1"
+                "${workspaceFolder}/Memory_Pool_BNXY/V1",
+                "${workspaceFolder}/Memory_Pool_BNXY/V2",
+                "${workspaceFolder}/Memory_Pool_BNXY/V2/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

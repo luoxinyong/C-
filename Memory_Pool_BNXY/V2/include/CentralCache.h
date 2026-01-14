@@ -11,6 +11,8 @@
 #include <array>
 #include <thread>
 #include "Common.h"
+#include <unordered_map>
+
 namespace Bnxy_memoryPool
 {
     //Span信息存储结构
@@ -33,11 +35,28 @@ class CentralCache{
 
 
 private:
+        CentralCache();
         //从PageCache申请内存块
         void* GetFromPageCache(size_t size ,size_t& numPages);
+        SpanTracker* getSpanTracker(void* addr);//根据地址获取SpanTracker
+
+        bool shouldPerformDelayedReturn(size_t index, size_t currentCount, std::chrono::steady_clock::time_point currentTime);
+        void performDelayedReturn(size_t index);
+        void updateSpanFreeCount(SpanTracker* tracker, size_t newFreeBlocks, size_t index);//检查并更新span的空闲块数
+
+        static const size_t MAX_DELAY_COUNT = 48;  // 最大延迟计数
+        std::array<std::atomic<size_t>, FREE_LIST_SIZE> delayCounts_;//延迟归还计数，用于判断是否需要延迟归还，每种大小都有一个
+        std::array<std::chrono::steady_clock::time_point, FREE_LIST_SIZE> lastReturnTimes_;  // 上次归还时间
+        static const std::chrono::milliseconds DELAY_INTERVAL;  // 延迟间隔
+
+
         std::array<std::atomic<void*>, FREE_LIST_SIZE> centralFreeList_;//中心缓存的自由链表，保存从Page申请到的内存
         std::array<std::atomic_flag, FREE_LIST_SIZE> locks_;//// 用于同步的自旋锁
         std::array<SpanTracker, 1024> spanTrackers_;//用于判断回收
+        std::atomic<size_t> spanCount_{0};//span的计数器，用于给spanTrackers_分配索引
+        
+
+        
 };
 
 }// namespace Bnxy_memoryPool

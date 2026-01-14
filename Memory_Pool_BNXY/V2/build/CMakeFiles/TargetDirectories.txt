@@ -1,0 +1,4 @@
+/home/bnxy/C++_OBJ/Memory_Pool_BNXY/V2/build/CMakeFiles/unit_test.dir
+/home/bnxy/C++_OBJ/Memory_Pool_BNXY/V2/build/CMakeFiles/test.dir
+/home/bnxy/C++_OBJ/Memory_Pool_BNXY/V2/build/CMakeFiles/edit_cache.dir
+/home/bnxy/C++_OBJ/Memory_Pool_BNXY/V2/build/CMakeFiles/rebuild_cache.dir

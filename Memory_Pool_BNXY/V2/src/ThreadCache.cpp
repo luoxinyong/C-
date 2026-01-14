@@ -20,11 +20,15 @@ void* ThreadCache::allocate(size_t size)
     //如果自由链表为空，就从中心缓存获取
     if(_freeLists[index] == nullptr)
     {
-        GetfromCentralCache(index);
+        
+        _freeLists[index] = GetfromCentralCache(index);
     }
     //从自由链表中获取内存
+     
     void* ret = _freeLists[index];
+    
     _freeLists[index] = *reinterpret_cast<void**>(ret);
+    
     return ret;
 }
 
@@ -52,6 +56,7 @@ void ThreadCache::deallocate(void* ptr, size_t size){
 }
 void* ThreadCache::GetfromCentralCache(size_t size){
     void* ret = CentralCache::GetInstance()->fetchRange(size);
+   
     if(ret == nullptr)
     {
         return nullptr;
